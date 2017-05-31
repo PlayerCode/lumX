@@ -26,6 +26,7 @@
         service.warning = notifyWarning;
         service.getNotificationList = getNotificationList;
         service.setNotificationList = setNotificationList;
+        service.reComputeElementsPosition = reComputeElementsPosition;
 
         ////////////
 
@@ -90,6 +91,25 @@
                     notificationList[idx].margin += upOffset;
                     notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
                 }
+            }
+        }
+
+        /**
+         * Compute the notification list element new position.
+         * Usefull when the height change programmatically and you need other notifications to fit.
+         */
+        function reComputeElementsPosition()
+        {
+            var baseOffset = 0;
+
+            for (var idx = notificationList.length -1; idx >= 0; idx--)
+            {
+                notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+                notificationList[idx].margin = baseOffset;
+
+                notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+
+                baseOffset += notificationList[idx].height + 24;
             }
         }
 
